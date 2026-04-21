@@ -1,6 +1,6 @@
 import os
 
-DB_NAME = os.path.join('shop_app', 'data', 'shop.db')
+DB_NAME = os.path.join('data', 'shop.db')
 
 queries = [
     '''CREATE TABLE IF NOT EXISTS `categories` (
@@ -30,7 +30,7 @@ queries = [
         FOREIGN KEY(`id_job_title`) REFERENCES `jobs_titles`(`id`)
     );''',
 
-    '''CREATE TABLE IF NOT EXISTS `reseipts` (
+    '''CREATE TABLE IF NOT EXISTS `receipts` (
         `id_check` INTEGER PRIMARY KEY AUTOINCREMENT,
         `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
         `id_cashier` INTEGER NOT NULL,
@@ -42,7 +42,7 @@ queries = [
         `id_check` INTEGER NOT NULL,
         `id_product` INTEGER NOT NULL,
         `quantity` REAL NOT NULL,
-        FOREIGN KEY(`id_check`) REFERENCES `reseipts`(`id_check`),
+        FOREIGN KEY(`id_check`) REFERENCES `receipts`(`id_check`),
         FOREIGN KEY(`id_product`) REFERENCES `products`(`id_product`)
     );'''
 ]
