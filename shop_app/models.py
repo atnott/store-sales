@@ -47,6 +47,17 @@ class Shop:
                 conn.rollback()
                 return False, e
 
+    def get_sales_by_date(self, date):
+        query = '''
+        SELECT products.name_of_product, SUM(sale_items.quantity), SUM(sale_items.quantity * products.price)
+        FROM sale_items
+        JOIN receipts ON sale_items.id_check = receipts.id_check
+        JOIN products ON sale_items.id_product = products.id_product
+        WHERE DATE(receipts.created_at) = ?
+        GROUP BY products.id_product
+        '''
+        return self._execute_query(query, params=(date, ), fetchall=True)
+
 
 
 
