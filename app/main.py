@@ -1,14 +1,27 @@
-from models import Shop
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from .models import DB_NAME, Shop
 
-cart = [(1, 2)]
+app = FastAPI()
 shop = Shop()
-for p in shop.get_all_products():
-    print(p)
 
-for e in shop.get_all_employees():
-    print(e)
+templates = Jinja2Templates(directory="app/templates")
 
-# success, result = shop.make_purchase(id_cashier=1, cart_items=cart)
-# print(result)
-print(shop.get_sales_by_date('2026-04-21'))
+@app.get('/', response_class=HTMLResponse)
+async def read_root(request: Request):
+    products = shop.get_all_products()
+    print(f"ТОВАРЫ ИЗ БАЗЫ: {products}")
+    employees = shop.get_all_employees()
+
+    return templates.TemplateResponse(
+        request=request,
+        name='index.html',
+        context={"products": products, "employees": employees}
+    )
+
+
+
+
+
 

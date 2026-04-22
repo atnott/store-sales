@@ -1,6 +1,7 @@
 import os
 
-DB_NAME = os.path.join('data', 'shop.db')
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_NAME = os.path.join(CURRENT_DIR, '..', 'data', 'shop.db')
 
 queries = [
     '''CREATE TABLE IF NOT EXISTS `categories` (

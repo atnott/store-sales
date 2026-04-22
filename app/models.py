@@ -1,9 +1,9 @@
 import sqlite3
-from config import DB_NAME
+from .config import DB_NAME
 
 class Shop:
     def __init__(self):
-        self.name = __import__('os').path.join('shop_app', DB_NAME)
+        self.name = DB_NAME
 
     def _execute_query(self, query, params = (), fetchall = False):
         with sqlite3.connect(self.name) as conn:

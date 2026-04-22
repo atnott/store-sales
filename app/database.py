@@ -36,7 +36,7 @@ if __name__ == '__main__':
             "DELETE FROM sqlite_sequence WHERE name IN ('products', 'categories', 'employees', 'jobs_titles')")
         conn.commit()
 
-    load_from_file('data/categories.txt',"INSERT INTO categories (name_category) VALUES (?)")
-    load_from_file('data/products.txt',"INSERT INTO products (name_of_product, price, id_category, quantity_at_storage) VALUES (?, ?, ?, ?)")
-    load_from_file('data/jobs_titles.txt', "INSERT INTO jobs_titles (name) VALUES (?)")
-    load_from_file('data/employees.txt', "INSERT INTO employees (name, surname, id_job_title) VALUES (?, ?, ?)")
+    load_from_file('../data/categories.txt', "INSERT INTO categories (name_category) VALUES (?)")
+    load_from_file('../data/products.txt', "INSERT INTO products (name_of_product, price, id_category, quantity_at_storage) VALUES (?, ?, ?, ?)")
+    load_from_file('../data/jobs_titles.txt', "INSERT INTO jobs_titles (name) VALUES (?)")
+    load_from_file('../data/employees.txt', "INSERT INTO employees (name, surname, id_job_title) VALUES (?, ?, ?)")
