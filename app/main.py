@@ -28,17 +28,28 @@ class StoreApp:
 
         tk.Button(self.root, text="Обновить склад", command=self.load_data).pack(pady=5)
 
+        buy_frame = tk.LabelFrame(self.root, text="Оформить покупку")
+        buy_frame.pack(fill=tk.X, padx=10, pady=10)
+
+        tk.Label(buy_frame, text="ID товара:").grid(row=0, column=0, padx=5, pady=5)
+        self.entry_id = tk.Entry(buy_frame, width=10)
+        self.entry_id.grid(row=0, column=1)
+
+        tk.Label(buy_frame, text="Количество товара:").grid(row=0, column=2, padx=5, pady=5)
+        self.entry_qty = tk.Entry(buy_frame, width=10)
+        self.entry_qty.grid(row=0, column=3)
+
+        tk.Button(buy_frame, text="Купить", bg="white", fg="black", command=self.buy_action).grid(row=0, column=4, padx=10)
+
+    def buy_action(self):
+        pass
+
     def load_data(self):
         for i in self.tree.get_children():
             self.tree.delete(i)
 
         for product in self.shop.get_all_products():
             self.tree.insert("", tk.END, values=product)
-
-
-
-
-
 
 
 if __name__ == '__main__':
