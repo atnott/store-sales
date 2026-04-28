@@ -1,5 +1,5 @@
 import sqlite3
-from .config import DB_NAME
+from config import DB_NAME
 
 class Shop:
     def __init__(self):
