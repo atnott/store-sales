@@ -1,24 +1,22 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from .models import DB_NAME, Shop
+import tkinter as tk
+from tkinter import ttk, messagebox
+from models import Shop
 
-app = FastAPI()
-shop = Shop()
+class StoreApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title('Shop Manager')
+        self.root.geometry("600x500")
 
-templates = Jinja2Templates(directory="app/templates")
+        self.shop = Shop()
 
-@app.get('/', response_class=HTMLResponse)
-async def read_root(request: Request):
-    products = shop.get_all_products()
-    print(f"ТОВАРЫ ИЗ БАЗЫ: {products}")
-    employees = shop.get_all_employees()
+        self.create_widgets()
 
-    return templates.TemplateResponse(
-        request=request,
-        name='index.html',
-        context={"products": products, "employees": employees}
-    )
+if __name__ == '__main__':
+    root = tk.Tk()
+    app = StoreApp(root)
+    root.mainloop()
+
 
 
 
