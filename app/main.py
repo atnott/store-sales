@@ -42,7 +42,20 @@ class StoreApp:
         tk.Button(buy_frame, text="Купить", bg="white", fg="black", command=self.buy_action).grid(row=0, column=4, padx=10)
 
     def buy_action(self):
-        pass
+        p_id = self.entry_id.get()
+        qty = self.entry_qty.get()
+
+        if not p_id or not qty:
+            messagebox.showwarning("Ошибка", "Заполните все поля")
+            return
+
+        success, result = self.shop.make_purchase(1, [(int(p_id), int(qty))])
+
+        if success:
+            messagebox.showinfo("Успех", f"Покупка совершена! Чек №{result}")
+            self.load_data()  # Сразу обновляем остатки в таблице
+        else:
+            messagebox.showerror("Ошибка склада", f"Не удалось: {result}")
 
     def load_data(self):
         for i in self.tree.get_children():
