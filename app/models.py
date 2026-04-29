@@ -5,7 +5,7 @@ class Shop:
     def __init__(self):
         self.name = DB_NAME
 
-    def _execute_query(self, query, params = (), fetchall = False):
+    def _execute_query(self, query: str, params: tuple = (), fetchall: bool = False) -> list[tuple] | None:
         '''Формирование запроса к бд'''
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
@@ -14,29 +14,29 @@ class Shop:
                 return cursor.fetchall()
             conn.commit()
 
-    def get_all_products(self):
+    def get_all_products(self) -> list[tuple]:
         '''Получение полного списка товаров (ID, название, цена, остаток) для отображения в таблице'''
         query = "SELECT id_product, name_of_product, price, quantity_at_storage FROM products"
         return self._execute_query(query, fetchall=True)
 
-    def get_all_employees(self):
+    def get_all_employees(self) -> list[tuple]:
         '''Загрузка списка всех сотрудников для возможности выбора кассира в интерфейсе'''
         query = "SELECT id, name, surname FROM employees"
         return self._execute_query(query, fetchall=True)
 
-    def get_product_by_id(self, id_product):
+    def get_product_by_id(self, id_product : int) -> tuple | None:
         '''Получение конкретного товара по его id'''
         for product in self.get_all_products():
             if product[0] == id_product:
                 return product
         return None
 
-    def get_all_product_ids(self):
+    def get_all_product_ids(self) -> list[int]:
         '''Получение id всех товаров для проверки корректности введенного значения'''
         query = "SELECT id_product FROM products"
         return [int(i[0]) for i in self._execute_query(query, fetchall=True)]
 
-    def make_purchase(self, id_cashier, cart_items):
+    def make_purchase(self, id_cashier: int, cart_items: list[tuple[int, int]]) -> tuple[bool, int | str]:
         '''Главный метод оформления покупки: создание чека, списывание остатков, запись позиций'''
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
@@ -63,7 +63,7 @@ class Shop:
                 conn.rollback()
                 return False, e
 
-    def get_sales_by_date(self, date):
+    def get_sales_by_date(self, date: str) -> list[tuple] | None:
         '''Формирование отчета за выбранную дату'''
         query = '''
         SELECT products.name_of_product, SUM(sale_items.quantity), SUM(sale_items.quantity * products.price)
