@@ -58,6 +58,7 @@ class StoreApp:
         tk.Button(main_frame, text='Получить дневной отчет', command=self.show_daily_report).pack(pady=10, padx=50)
 
     def add_to_cart(self):
+        '''Добавление товара в корзину'''
         p_id = self.entry_id.get()
         qty = self.entry_qty.get()
 
@@ -78,6 +79,7 @@ class StoreApp:
             self.load_data()
 
     def finalize_purchase(self):
+        '''Передача данных из корзины в базу данных для официального оформления чека и списания остатков'''
         if not self.cart:
             messagebox.showwarning('Ошибка', 'Корзина пуста')
             return
@@ -94,12 +96,14 @@ class StoreApp:
             messagebox.showerror('Ошибка', f'Проблема при оформлении: {result}')
 
     def get_cart_list(self):
+        '''Преобразование списка товаров по их id в красивую строку'''
         str_cart = ''
         for p_id, qty in self.cart:
             str_cart += f'{self.shop.get_product_by_id(p_id)[1]} - {qty} шт.\n'
         return str_cart
 
     def load_data(self):
+        '''Обновление таблицы товаров'''
         for i in self.tree.get_children():
             self.tree.delete(i)
 
@@ -107,6 +111,7 @@ class StoreApp:
             self.tree.insert('', tk.END, values=product)
 
     def show_cart(self):
+        '''Показать содержимое корзины'''
         if not self.cart:
             messagebox.showinfo('Корзина', 'Ваша корзина пока пуста')
             return
@@ -114,12 +119,14 @@ class StoreApp:
         messagebox.showinfo('Ваша корзина', str_cart)
 
     def get_selected_cashier_id(self):
+        '''Получение id выбранного кассира'''
         selection = self.staff_combo.get()
         if selection:
             return int(selection.split(" ")[0])
         return None
 
     def show_daily_report(self):
+        '''Формирование отчета за день'''
         today = __import__('datetime').datetime.now().strftime("%Y-%m-%d")
         sales_data = self.shop.get_sales_by_date(today)
 
