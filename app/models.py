@@ -21,6 +21,16 @@ class Shop:
         query = "SELECT id, name, surname FROM employees"
         return self._execute_query(query, fetchall=True)
 
+    def get_product_by_id(self, id_product):
+        for product in self.get_all_products():
+            if product[0] == id_product:
+                return product
+        return None
+
+    def get_all_product_ids(self):
+        query = "SELECT id_product FROM products"
+        return [int(i[0]) for i in self._execute_query(query, fetchall=True)]
+
     def make_purchase(self, id_cashier, cart_items):
         with sqlite3.connect(self.name) as conn:
             cursor = conn.cursor()
